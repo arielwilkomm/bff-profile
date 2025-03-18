@@ -16,6 +16,15 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@environment/*": ["src/common/environment/*"],
+      "@health/*": ["src/health/*"],
+      "@address/*": ["src/address/*"],
+      "@profile/*": ["src/profile/*"],
+      "@postalcode/*": ["src/postalcode/*"]
+    }
+  },
+  "include": ["./src/**/*.ts", "./src/**/*.d.ts", "./test/**/*.ts"],
+  "exclude": ["./node_modules/*", "dist"]
 }
