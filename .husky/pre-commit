@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+yarn lint
+bash -c 'yarn test > test-results.log 2>&1; if grep -q "^FAIL" test-results.log; then grep -A 20 "^FAIL" test-results.log | GREP_COLORS="mt=1;31" grep --color=always -E "FAIL|at Object.<anonymous>"; else grep -E "PASS|Test Suites:|Tests:|Snapshots:|Time:|Ran all test suites" test-results.log | sed -E "s/(PASS)/\x1b[32m\1\x1b[0m/g; s/(FAIL)/\x1b[31m\1\x1b[0m/g; s/(Test Suites:|Tests:|Snapshots:|Time:|Ran all test suites)/\x1b[34m\1\x1b[0m/g"; fi'
