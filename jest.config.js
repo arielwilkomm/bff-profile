@@ -15,6 +15,7 @@ module.exports = {
     ],
     moduleNameMapper: {
         '@environment/(.*)': '<rootDir>/src/common/environment/$1',
+        '@constants/(.*)': '<rootDir>/src/common/constants/$1',
         '@health/(.*)': '<rootDir>/src/health/$1',
         '@addess/(.*)': '<rootDir>/src/address',
         '@profile/(.*)': '<rootDir>/src/profile',

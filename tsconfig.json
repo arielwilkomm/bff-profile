@@ -19,6 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@environment/*": ["src/common/environment/*"],
+      "@constants/*" : ["src/common/constants/*"],
       "@health/*": ["src/health/*"],
       "@address/*": ["src/address/*"],
       "@profile/*": ["src/profile/*"],
