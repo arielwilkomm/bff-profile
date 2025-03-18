@@ -13,4 +13,8 @@ export default class EnvironmentService implements IEnvironment {
     getApiName(): string | undefined {
         return this.configService.get<string>('API_NAME');
     }
+
+    getProfileApiUrl(): string | undefined {
+        return this.configService.get<string>('PROFILE_URL');
+    }
 }

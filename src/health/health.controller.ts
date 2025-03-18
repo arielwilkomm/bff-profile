@@ -1,4 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
+import { ApiExcludeEndpoint } from '@nestjs/swagger';
 import { HealthCheck, HealthCheckService } from '@nestjs/terminus';
 
 @Controller('/actuator/health')
@@ -11,6 +12,7 @@ export default class HealthController {
 
     @Get()
     @HealthCheck()
+    @ApiExcludeEndpoint()
     check() {
         return this.healthCheckService.check([]);
     }
