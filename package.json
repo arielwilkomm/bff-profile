@@ -39,8 +39,10 @@
     "nock": "^13.3.2",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
+    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
-    "winston": "^3.13.0"
+    "winston": "^3.13.0",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.6.0",

@@ -1,0 +1,16 @@
+openapi: 3.0.0
+paths: {}
+info:
+    title: 'BFF Profile API'
+    description: 'Documentação da API do BFF Profile'
+    version: '1.0'
+    contact: {}
+tags: []
+servers: []
+components:
+    securitySchemes:
+        bearer:
+            scheme: bearer
+            bearerFormat: JWT
+            type: http
+    schemas: {}
