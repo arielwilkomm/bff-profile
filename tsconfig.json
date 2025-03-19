@@ -21,6 +21,7 @@
       "@environment/*": ["src/common/environment/*"],
       "@constants/*" : ["src/common/constants/*"],
       "@exceptions/*" : ["src/common/exceptions/*"],
+      "@logger": ["src/common/logger/index"],
       "@utils/*" : ["src/common/utils/*"],
       "@health/*": ["src/health/*"],
       "@address/*": ["src/address/*"],

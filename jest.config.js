@@ -17,6 +17,7 @@ module.exports = {
         '@environment/(.*)': '<rootDir>/src/common/environment/$1',
         '@constants/(.*)': '<rootDir>/src/common/constants/$1',
         '@exceptions/(.*)': '<rootDir>/src/common/exceptions/$1',
+        "@logger": "<rootDir>/src/common/logger/index",
         '@utils/(.*)': '<rootDir>/src/common/utils/$1',
         '@health/(.*)': '<rootDir>/src/health/$1',
         '@addess/(.*)': '<rootDir>/src/address',

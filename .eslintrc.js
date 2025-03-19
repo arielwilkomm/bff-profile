@@ -36,6 +36,7 @@ export default tseslint.config(
         alias: {
           map: [
             ['@environment/*', './src/environment'],
+            ['@logger/*', './src/common/logger'],
             ['@health/*', './src/health'],
             ['@exceptions/*', './src/common/exceptions'],
             ['@utils/*', './src/common/utils'],

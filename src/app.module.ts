@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
 import EnvironmentModule from '@environment/environment.module';
 import HealthController from '@health/health.controller';
+import { AddressModule } from '@address/cart.module';
 
 @Module({
     imports: [
@@ -16,6 +17,7 @@ import HealthController from '@health/health.controller';
         TerminusModule,
         HttpModule,
         EnvironmentModule,
+        AddressModule
     ],
     controllers: [HealthController],
     providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }],
