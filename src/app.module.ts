@@ -17,7 +17,7 @@ import { AddressModule } from '@address/cart.module';
         TerminusModule,
         HttpModule,
         EnvironmentModule,
-        AddressModule
+        AddressModule,
     ],
     controllers: [HealthController],
     providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }],

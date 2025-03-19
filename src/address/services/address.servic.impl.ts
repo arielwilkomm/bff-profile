@@ -9,85 +9,85 @@ import { BusinessException } from '@exceptions/business.exception';
 
 @Injectable()
 export class AddressServiceImpl implements IAddressService {
-  private readonly addressClient: IAddressClient;
+    private readonly addressClient: IAddressClient;
 
-  constructor(@Inject(ADDRESS_CLIENT) addressClient: IAddressClient) {
-    this.addressClient = addressClient;
-  }
-
-  async createAddress(
-    cpf: string,
-    body: AddressRecordDTO,
-  ): Promise<{ status: number; data: AddressRecordDTO | BusinessException }> {
-    try {
-      Logger.info(`Creating address for CPF: ${cpf}`);
-
-      const result = await this.addressClient.createAddress(cpf, body);
-      result.data = plainToInstance(AddressRecordDTO, result.data, { excludeExtraneousValues: true });
-
-      Logger.info('Successfully created address');
-
-      return result;
-    } catch (error) {
-      Logger.error('Error creating address', error);
-      throw new BusinessException(error.status, 'Error creating address');
+    constructor(@Inject(ADDRESS_CLIENT) addressClient: IAddressClient) {
+        this.addressClient = addressClient;
     }
-  }
 
-  async getAddress(
-    cpf: string,
-    addressId: string,
-  ): Promise<{ status: number; data: AddressRecordDTO | BusinessException }> {
-    try {
-      Logger.info(`Retrieving address for CPF: ${cpf}, Address ID: ${addressId}`);
+    async createAddress(
+        cpf: string,
+        body: AddressRecordDTO,
+    ): Promise<{ status: number; data: AddressRecordDTO | BusinessException }> {
+        try {
+            Logger.info(`Creating address for CPF: ${cpf}`);
 
-      const result = await this.addressClient.getAddress(cpf, addressId);
-      result.data = plainToInstance(AddressRecordDTO, result.data, { excludeExtraneousValues: true });
+            const result = await this.addressClient.createAddress(cpf, body);
+            result.data = plainToInstance(AddressRecordDTO, result.data, { excludeExtraneousValues: true });
 
-      Logger.info('Successfully retrieved address');
+            Logger.info('Successfully created address');
 
-      return result;
-    } catch (error) {
-      Logger.error('Error retrieving address', error);
-      throw new BusinessException(error.status, 'Error retrieving address');
+            return result;
+        } catch (error) {
+            Logger.error('Error creating address', error);
+            throw new BusinessException(error.status, 'Error creating address');
+        }
     }
-  }
 
-  async updateAddress(
-    cpf: string,
-    addressId: string,
-    body: AddressRecordDTO,
-  ): Promise<{ status: number; data: AddressRecordDTO | BusinessException }> {
-    try {
-      Logger.info(`Updating address for CPF: ${cpf}, Address ID: ${addressId}`);
+    async getAddress(
+        cpf: string,
+        addressId: string,
+    ): Promise<{ status: number; data: AddressRecordDTO | BusinessException }> {
+        try {
+            Logger.info(`Retrieving address for CPF: ${cpf}, Address ID: ${addressId}`);
 
-      const result = await this.addressClient.updateAddress(cpf, addressId, body);
-      result.data = plainToInstance(AddressRecordDTO, result.data, { excludeExtraneousValues: true });
+            const result = await this.addressClient.getAddress(cpf, addressId);
+            result.data = plainToInstance(AddressRecordDTO, result.data, { excludeExtraneousValues: true });
 
-      Logger.info('Successfully updated address');
+            Logger.info('Successfully retrieved address');
 
-      return result;
-    } catch (error) {
-      Logger.error('Error updating address', error);
-      throw new BusinessException(error.status, 'Error updating address');
+            return result;
+        } catch (error) {
+            Logger.error('Error retrieving address', error);
+            throw new BusinessException(error.status, 'Error retrieving address');
+        }
     }
-  }
 
-  async deleteAddress(
-    cpf: string,
-    addressId: string,
-  ): Promise<{ status: number; data: { message: string } | BusinessException }> {
-    try {
-      Logger.info(`Deleting address for CPF: ${cpf}, Address ID: ${addressId}`);
+    async updateAddress(
+        cpf: string,
+        addressId: string,
+        body: AddressRecordDTO,
+    ): Promise<{ status: number; data: AddressRecordDTO | BusinessException }> {
+        try {
+            Logger.info(`Updating address for CPF: ${cpf}, Address ID: ${addressId}`);
 
-      const result = await this.addressClient.deleteAddress(cpf, addressId);
+            const result = await this.addressClient.updateAddress(cpf, addressId, body);
+            result.data = plainToInstance(AddressRecordDTO, result.data, { excludeExtraneousValues: true });
 
-      Logger.info('Successfully deleted address');
+            Logger.info('Successfully updated address');
 
-      return result;
-    } catch (error) {
-      Logger.error('Error deleting address', error);
-      throw new BusinessException(error.status, 'Error deleting address');
+            return result;
+        } catch (error) {
+            Logger.error('Error updating address', error);
+            throw new BusinessException(error.status, 'Error updating address');
+        }
     }
-  }
+
+    async deleteAddress(
+        cpf: string,
+        addressId: string,
+    ): Promise<{ status: number; data: { message: string } | BusinessException }> {
+        try {
+            Logger.info(`Deleting address for CPF: ${cpf}, Address ID: ${addressId}`);
+
+            const result = await this.addressClient.deleteAddress(cpf, addressId);
+
+            Logger.info('Successfully deleted address');
+
+            return result;
+        } catch (error) {
+            Logger.error('Error deleting address', error);
+            throw new BusinessException(error.status, 'Error deleting address');
+        }
+    }
 }
