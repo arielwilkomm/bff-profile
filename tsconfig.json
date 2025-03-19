@@ -20,6 +20,8 @@
     "paths": {
       "@environment/*": ["src/common/environment/*"],
       "@constants/*" : ["src/common/constants/*"],
+      "@exceptions/*" : ["src/common/exceptions/*"],
+      "@utils/*" : ["src/common/utils/*"],
       "@health/*": ["src/health/*"],
       "@address/*": ["src/address/*"],
       "@profile/*": ["src/profile/*"],

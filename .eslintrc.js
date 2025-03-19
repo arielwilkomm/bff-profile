@@ -37,6 +37,8 @@ export default tseslint.config(
           map: [
             ['@environment/*', './src/environment'],
             ['@health/*', './src/health'],
+            ['@exceptions/*', './src/common/exceptions'],
+            ['@utils/*', './src/common/utils'],
             ['@constants/*', './src/common/constants'],
             ['@address/*', './src/address'],
             ['@profile/*', './src/profile'],

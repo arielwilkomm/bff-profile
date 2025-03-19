@@ -1,19 +1,27 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiExcludeEndpoint } from '@nestjs/swagger';
-import { HealthCheck, HealthCheckService } from '@nestjs/terminus';
+import { HealthCheck, HealthCheckService, HttpHealthIndicator, MemoryHealthIndicator } from '@nestjs/terminus';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('/actuator/health')
 export default class HealthController {
-    private readonly healthCheckService: HealthCheckService;
-
-    constructor(healthCheckService: HealthCheckService) {
-        this.healthCheckService = healthCheckService;
-    }
+    constructor(
+        private readonly healthCheckService: HealthCheckService,
+        private readonly httpIndicator: HttpHealthIndicator,
+        private readonly memoryIndicator: MemoryHealthIndicator,
+        private readonly configService: ConfigService,
+    ) {}
 
     @Get()
     @HealthCheck()
     @ApiExcludeEndpoint()
     check() {
-        return this.healthCheckService.check([]);
+        const backendUrl = this.configService.get<string>('BACKEND_API_URL') || 'http://localhost:8080';
+
+        return this.healthCheckService.check([
+            () => this.httpIndicator.pingCheck('backend-api', `${backendUrl}/actuator/health`),
+            () => this.memoryIndicator.checkHeap('memory_heap', 200 * 1024 * 1024),
+            () => this.memoryIndicator.checkRSS('memory_rss', 300 * 1024 * 1024),
+        ]);
     }
 }

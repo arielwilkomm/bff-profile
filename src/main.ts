@@ -1,9 +1,11 @@
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { ClassSerializerInterceptor, HttpStatus, ValidationError, ValidationPipe } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as express from 'express';
 import * as path from 'path';
+import { handleError } from '@utils/validate.util';
+import { BusinessException } from '@exceptions/business.exception';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -12,6 +14,10 @@ async function bootstrap() {
     app.useGlobalPipes(
         new ValidationPipe({
             transform: true,
+            exceptionFactory: (errors: ValidationError[]) => {
+                const message = handleError(errors);
+                return new BusinessException(HttpStatus.BAD_REQUEST, message);
+            },
         }),
     );
 
