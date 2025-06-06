@@ -2,42 +2,54 @@ import { IsString, IsOptional } from 'class-validator';
 
 export class EnderecoDto {
     @IsString()
-    cep: string;
-
-    @IsString()
-    logradouro: string;
-
-    @IsString()
-    complemento: string;
+    @IsOptional()
+    cep?: string;
 
     @IsString()
     @IsOptional()
-    unidade: string;
+    logradouro?: string;
 
     @IsString()
-    bairro: string;
+    @IsOptional()
+    complemento?: string;
 
     @IsString()
-    localidade: string;
+    @IsOptional()
+    unidade?: string;
 
     @IsString()
-    uf: string;
+    @IsOptional()
+    bairro?: string;
 
     @IsString()
-    estado: string;
+    @IsOptional()
+    localidade?: string;
 
     @IsString()
-    regiao: string;
+    @IsOptional()
+    uf?: string;
 
     @IsString()
-    ibge: string;
+    @IsOptional()
+    estado?: string;
 
     @IsString()
-    gia: string;
+    @IsOptional()
+    regiao?: string;
 
     @IsString()
-    ddd: string;
+    @IsOptional()
+    ibge?: string;
 
     @IsString()
-    siafi: string;
+    @IsOptional()
+    gia?: string;
+
+    @IsString()
+    @IsOptional()
+    ddd?: string;
+
+    @IsString()
+    @IsOptional()
+    siafi?: string;
 }

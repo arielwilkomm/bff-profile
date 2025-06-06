@@ -6,6 +6,8 @@ import { HttpModule } from '@nestjs/axios';
 import EnvironmentModule from '@environment/environment.module';
 import HealthController from '@health/health.controller';
 import { AddressModule } from '@address/cart.module';
+import { PostalCodeModule } from '@postalcode/postalcode.module';
+import { ProfileModule } from '@profile/profile.module';
 
 @Module({
     imports: [
@@ -18,6 +20,8 @@ import { AddressModule } from '@address/cart.module';
         HttpModule,
         EnvironmentModule,
         AddressModule,
+        PostalCodeModule,
+        ProfileModule,
     ],
     controllers: [HealthController],
     providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }],
