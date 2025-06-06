@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Inject, Injectable, HttpStatus } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { firstValueFrom, map, catchError } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import { IEnvironment } from '@environment/environment';
@@ -80,13 +80,19 @@ export class ProfileClientImpl implements IProfileClient {
 
     private httpError(method: string, error: any): BusinessException {
         Logger.warn(`Error fetching ${method} data - [${error}]`);
-        const { status, data } = error.response || {};
-        const message = data?.details ?? data ?? error?.message;
-        let statusCode = status;
-        if (!statusCode && message && typeof message === 'string' && message.toLowerCase().includes('not found')) {
-            statusCode = 404;
+
+        const response = error?.response;
+        const status = response?.status ?? 500;
+        const data = response?.data;
+        const message =
+            (typeof data === 'object' ? (data?.details ?? data?.message) : null) ?? error?.message ?? 'Unknown error';
+
+        let resolvedStatus = status;
+        if (!resolvedStatus && typeof message === 'string' && message.toLowerCase().includes('not found')) {
+            resolvedStatus = 404;
         }
+
         Logger.error(`ProfileClient.${method} - [${error}] - Message: [${message}]`);
-        return new BusinessException(statusCode, message);
+        return new BusinessException(resolvedStatus, message);
     }
 }

@@ -25,10 +25,8 @@ export class AddressClientImpl implements IAddressClient {
     ): Promise<{ status: number; data: AddressRecordDTO | BusinessException }> {
         Logger.info(`Creating address for CPF: ${cpf}`);
         const url = `${this.environment.getAddressUrl(cpf)}`;
-        return this.handleRequest<AddressRecordDTO>(
-            'createAddress',
-            () => this.httpService.post<AddressRecordDTO>(url, body),
-            cpf,
+        return this.handleRequest<AddressRecordDTO>('createAddress', () =>
+            this.httpService.post<AddressRecordDTO>(url, body),
         );
     }
 
@@ -38,12 +36,7 @@ export class AddressClientImpl implements IAddressClient {
     ): Promise<{ status: number; data: AddressRecordDTO | BusinessException }> {
         Logger.info(`Fetching address with ID: ${addressId} for CPF: ${cpf}`);
         const url = `${this.environment.getAddressUrl(cpf, addressId)}`;
-        Logger.info(`URL: ${url}`);
-        return this.handleRequest<AddressRecordDTO>(
-            'getAddress',
-            () => this.httpService.get<AddressRecordDTO>(url),
-            cpf,
-        );
+        return this.handleRequest<AddressRecordDTO>('getAddress', () => this.httpService.get<AddressRecordDTO>(url));
     }
 
     async updateAddress(
@@ -53,10 +46,8 @@ export class AddressClientImpl implements IAddressClient {
     ): Promise<{ status: number; data: AddressRecordDTO | BusinessException }> {
         Logger.info(`Updating address with ID: ${addressId} for CPF: ${cpf}`);
         const url = `${this.environment.getAddressUrl(cpf, addressId)}`;
-        return this.handleRequest<AddressRecordDTO>(
-            'updateAddress',
-            () => this.httpService.patch<AddressRecordDTO>(url, body),
-            cpf,
+        return this.handleRequest<AddressRecordDTO>('updateAddress', () =>
+            this.httpService.patch<AddressRecordDTO>(url, body),
         );
     }
 
@@ -66,49 +57,47 @@ export class AddressClientImpl implements IAddressClient {
     ): Promise<{ status: number; data: { message: string } | BusinessException }> {
         Logger.info(`Deleting address with ID: ${addressId} for CPF: ${cpf}`);
         const url = `${this.environment.getAddressUrl(cpf, addressId)}`;
-        return this.handleRequest<{ message: string }>(
-            'deleteAddress',
-            () => this.httpService.delete<{ message: string }>(url),
-            cpf,
+        return this.handleRequest<{ message: string }>('deleteAddress', () =>
+            this.httpService.delete<{ message: string }>(url),
         );
     }
 
     private async handleRequest<T>(
         method: string,
         requestFn: () => any,
-        cpf: string,
     ): Promise<{ status: number; data: T | BusinessException }> {
-        Logger.info(`Start client ${method} request for CPF [${cpf}]`);
+        Logger.info(`Start client ${method} request`);
         try {
             return await firstValueFrom<AxiosResponse<T>>(
                 requestFn().pipe(
                     map((response) => {
                         const axiosResponse = response as AxiosResponse<T>;
-                        Logger.debug(
-                            `Response for ${method} - CPF: ${cpf} - Data: ${JSON.stringify(axiosResponse.data)}`,
-                        );
-                        Logger.info(`Success fetching ${method} data for CPF [${cpf}]`);
+                        Logger.debug(`Response for ${method} - Data: ${JSON.stringify(axiosResponse.data)}`);
+                        Logger.info(`Success fetching ${method} data`);
                         return { status: axiosResponse.status, data: axiosResponse.data };
                     }),
                     catchError((error) => {
-                        throw this.httpError(method, error, cpf);
+                        throw this.httpError(method, error);
                     }),
                 ),
             );
         } catch (error) {
-            throw this.httpError(method, error, cpf);
+            throw this.httpError(method, error);
         }
     }
 
-    private httpError(method: string, error: any, cpf: string): BusinessException {
-        Logger.warn(`Error fetching ${method} data for CPF [${cpf}] - [${error}]`);
-        const { status, data } = error.response || {};
-        const message = data?.details ?? data ?? error?.message;
-        let statusCode = status;
-        if (!statusCode && message && typeof message === 'string' && message.toLowerCase().includes('not found')) {
-            statusCode = 404;
-        }
-        Logger.error(`AddressClient.${method} - [${error}] - Message: [${message}]`);
-        return new BusinessException(statusCode, message);
+    private httpError(method: string, error: any): BusinessException {
+        Logger.warn(`Error fetching ${method} data - [${error}]`);
+
+        const response = error?.response;
+        const status = response?.status ?? 500;
+        const data = response?.data;
+
+        const message = Array.isArray(data?.details)
+            ? data.details.join('; ')
+            : (data?.details ?? data?.message ?? error?.message ?? 'Unknown error');
+
+        Logger.error(`AddressClient.${method} - Status: ${status} - Message: [${message}]`);
+        return new BusinessException(status, message);
     }
 }
