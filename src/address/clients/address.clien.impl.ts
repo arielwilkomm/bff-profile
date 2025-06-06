@@ -103,7 +103,7 @@ export class AddressClientImpl implements IAddressClient {
     private httpError(method: string, error: any, cpf: string): BusinessException {
         Logger.warn(`Error fetching ${method} data for CPF [${cpf}] - [${error}]`);
         const { status, data } = error.response || {};
-        let message = data?.details ?? data ?? error?.message;
+        const message = data?.details ?? data ?? error?.message;
         let statusCode = status;
         if (!statusCode && message && typeof message === 'string' && message.toLowerCase().includes('not found')) {
             statusCode = 404;

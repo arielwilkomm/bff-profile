@@ -20,8 +20,8 @@ export class BusinessExceptionFilter implements ExceptionFilter {
             }
         }
         const details = body.details || (Array.isArray(exception.message) ? exception.message : [exception.message]);
-        let code = body.code;
-        let message = body.message;
+        let { code } = body;
+        let { message } = body;
         if (!code && typeof exception.message === 'string' && exception.message.toLowerCase().includes('not found')) {
             code = 'GB001';
             message = 'PROFILE_NOT_FOUND';
