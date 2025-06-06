@@ -19,39 +19,38 @@ export class ProfileClientImpl implements IProfileClient {
         this.environment = environment;
     }
 
-    async createProfile(body: ProfileRecordDTO): Promise<{ status: number; data: ProfileRecordDTO | BusinessException }> {
+    async createProfile(
+        body: ProfileRecordDTO,
+    ): Promise<{ status: number; data: ProfileRecordDTO | BusinessException }> {
         Logger.info('Creating profile');
         const url = `${this.environment.getProfileApiUrl()}`;
-        return this.handleRequest<ProfileRecordDTO>(
-            'createProfile',
-            () => this.httpService.post<ProfileRecordDTO>(url, body),
+        return this.handleRequest<ProfileRecordDTO>('createProfile', () =>
+            this.httpService.post<ProfileRecordDTO>(url, body),
         );
     }
 
     async getProfile(cpf: string): Promise<{ status: number; data: ProfileRecordDTO | BusinessException }> {
         Logger.info(`Fetching profile for CPF: ${cpf}`);
         const url = `${this.environment.getProfileApiUrl()}/${cpf}`;
-        return this.handleRequest<ProfileRecordDTO>(
-            'getProfile',
-            () => this.httpService.get<ProfileRecordDTO>(url),
-        );
+        return this.handleRequest<ProfileRecordDTO>('getProfile', () => this.httpService.get<ProfileRecordDTO>(url));
     }
 
-    async updateProfile(cpf: string, body: ProfileRecordDTO): Promise<{ status: number; data: ProfileRecordDTO | BusinessException }> {
+    async updateProfile(
+        cpf: string,
+        body: ProfileRecordDTO,
+    ): Promise<{ status: number; data: ProfileRecordDTO | BusinessException }> {
         Logger.info(`Updating profile for CPF: ${cpf}`);
         const url = `${this.environment.getProfileApiUrl()}/${cpf}`;
-        return this.handleRequest<ProfileRecordDTO>(
-            'updateProfile',
-            () => this.httpService.put<ProfileRecordDTO>(url, body),
+        return this.handleRequest<ProfileRecordDTO>('updateProfile', () =>
+            this.httpService.put<ProfileRecordDTO>(url, body),
         );
     }
 
     async deleteProfile(cpf: string): Promise<{ status: number; data: { message: string } | BusinessException }> {
         Logger.info(`Deleting profile for CPF: ${cpf}`);
         const url = `${this.environment.getProfileApiUrl()}/${cpf}`;
-        return this.handleRequest<{ message: string }>(
-            'deleteProfile',
-            () => this.httpService.delete<{ message: string }>(url),
+        return this.handleRequest<{ message: string }>('deleteProfile', () =>
+            this.httpService.delete<{ message: string }>(url),
         );
     }
 
@@ -65,9 +64,7 @@ export class ProfileClientImpl implements IProfileClient {
                 requestFn().pipe(
                     map((response) => {
                         const axiosResponse = response as AxiosResponse<T>;
-                        Logger.debug(
-                            `Response for ${method} - Data: ${JSON.stringify(axiosResponse.data)}`,
-                        );
+                        Logger.debug(`Response for ${method} - Data: ${JSON.stringify(axiosResponse.data)}`);
                         Logger.info(`Success fetching ${method} data`);
                         return { status: axiosResponse.status, data: axiosResponse.data };
                     }),

@@ -7,8 +7,6 @@ import { PostalCodeServiceImpl } from './services/postalCode.service.impl';
 @Module({
     imports: [HttpModule],
     controllers: [PostalCodeController],
-    providers: [
-        { provide: POSTAL_CODE_SERVICE, useClass: PostalCodeServiceImpl },
-    ],
+    providers: [{ provide: POSTAL_CODE_SERVICE, useClass: PostalCodeServiceImpl }],
 })
 export class PostalCodeModule {}

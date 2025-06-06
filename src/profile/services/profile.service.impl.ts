@@ -15,7 +15,9 @@ export class ProfileServiceImpl implements IProfileService {
         this.profileClient = profileClient;
     }
 
-    async createProfile(body: ProfileRecordDTO): Promise<{ status: number; data: ProfileRecordDTO | BusinessException }> {
+    async createProfile(
+        body: ProfileRecordDTO,
+    ): Promise<{ status: number; data: ProfileRecordDTO | BusinessException }> {
         try {
             Logger.info('Creating new profile');
             const result = await this.profileClient.createProfile(body);
@@ -41,7 +43,10 @@ export class ProfileServiceImpl implements IProfileService {
         }
     }
 
-    async updateProfile(cpf: string, body: ProfileRecordDTO): Promise<{ status: number; data: ProfileRecordDTO | BusinessException }> {
+    async updateProfile(
+        cpf: string,
+        body: ProfileRecordDTO,
+    ): Promise<{ status: number; data: ProfileRecordDTO | BusinessException }> {
         try {
             Logger.info(`Updating profile for CPF: ${cpf}`);
             const result = await this.profileClient.updateProfile(cpf, body);

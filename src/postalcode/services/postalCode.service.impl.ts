@@ -18,11 +18,17 @@ export class PostalCodeServiceImpl implements IPostalCodeService {
             if (response.data && !response.data['erro']) {
                 return { status: HttpStatus.OK, data: response.data };
             } else {
-                return { status: HttpStatus.NOT_FOUND, data: new BusinessException(HttpStatus.NOT_FOUND, 'Postal code not found') };
+                return {
+                    status: HttpStatus.NOT_FOUND,
+                    data: new BusinessException(HttpStatus.NOT_FOUND, 'Postal code not found'),
+                };
             }
         } catch (error) {
             Logger.error('Error consulting postal code', error);
-            return { status: HttpStatus.INTERNAL_SERVER_ERROR, data: new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR, 'Error consulting postal code') };
+            return {
+                status: HttpStatus.INTERNAL_SERVER_ERROR,
+                data: new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR, 'Error consulting postal code'),
+            };
         }
     }
 }
