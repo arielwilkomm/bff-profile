@@ -26,7 +26,7 @@ export class ProfileServiceImpl implements IProfileService {
             return result;
         } catch (error) {
             Logger.error('Error creating profile', error);
-            throw new BusinessException(error.status, 'Error creating profile');
+            throw new BusinessException(error.status, error.message);
         }
     }
 
@@ -39,7 +39,7 @@ export class ProfileServiceImpl implements IProfileService {
             return result;
         } catch (error) {
             Logger.error('Error retrieving profile', error);
-            throw new BusinessException(error.status, 'Error retrieving profile');
+            throw new BusinessException(error.status, error.message);
         }
     }
 
@@ -55,7 +55,7 @@ export class ProfileServiceImpl implements IProfileService {
             return result;
         } catch (error) {
             Logger.error('Error updating profile', error);
-            throw new BusinessException(error.status, 'Error updating profile');
+            throw new BusinessException(error.status, error.message);
         }
     }
 
@@ -67,7 +67,7 @@ export class ProfileServiceImpl implements IProfileService {
             return result;
         } catch (error) {
             Logger.error('Error deleting profile', error);
-            throw new BusinessException(error.status, 'Error deleting profile');
+            throw new BusinessException(error.status, error.message);
         }
     }
 }

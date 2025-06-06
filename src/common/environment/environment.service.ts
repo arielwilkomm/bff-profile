@@ -15,11 +15,17 @@ export default class EnvironmentService implements IEnvironment {
     }
 
     getProfileApiUrl(): string | undefined {
-        return this.configService.get<string>('MS_PROFILE_URL');
+        return this.configService.get<string>('PROFILE_URL');
     }
 
     getAddressUrl(cpf: string, addressId?: string): string {
-        return `${this.getAddressBaseUrl()}/${cpf}/${this.getAddressBaseUrI()}${addressId}`;
+        const baseUrl = this.getAddressBaseUrl();
+        const addressUri = this.getAddressBaseUrI();
+        let url = `${baseUrl}/${cpf}/${addressUri}`;
+        if (addressId) {
+            url += `${addressId}`;
+        }
+        return url;
     }
 
     getAddressBaseUrl(): string | undefined {

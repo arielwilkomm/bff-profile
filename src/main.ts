@@ -6,10 +6,12 @@ import * as express from 'express';
 import * as path from 'path';
 import { handleError } from '@utils/validate.util';
 import { BusinessException } from '@exceptions/business.exception';
+import { BusinessExceptionFilter } from './common/filter/business.filter';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
+    app.useGlobalFilters(new BusinessExceptionFilter());
     app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
     app.useGlobalPipes(
         new ValidationPipe({

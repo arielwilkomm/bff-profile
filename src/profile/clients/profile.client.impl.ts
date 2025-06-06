@@ -81,8 +81,12 @@ export class ProfileClientImpl implements IProfileClient {
     private httpError(method: string, error: any): BusinessException {
         Logger.warn(`Error fetching ${method} data - [${error}]`);
         const { status, data } = error.response || {};
-        const message = data?.details ?? data;
+        let message = data?.details ?? data ?? error?.message;
+        let statusCode = status;
+        if (!statusCode && message && typeof message === 'string' && message.toLowerCase().includes('not found')) {
+            statusCode = 404;
+        }
         Logger.error(`ProfileClient.${method} - [${error}] - Message: [${message}]`);
-        return new BusinessException(status, message);
+        return new BusinessException(statusCode, message);
     }
 }
