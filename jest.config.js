@@ -5,7 +5,7 @@ module.exports = {
     testEnvironment: 'node',
     coverageReporters: ['json', 'html', 'lcov'],
     preset: 'ts-jest',
-    testMatch: ['**/**/*.test.ts'],
+    testMatch: ['**/?(*.)+(spec|test).ts'],
     reporters: [
         'default',
         [
@@ -17,12 +17,12 @@ module.exports = {
         '@environment/(.*)': '<rootDir>/src/common/environment/$1',
         '@constants/(.*)': '<rootDir>/src/common/constants/$1',
         '@exceptions/(.*)': '<rootDir>/src/common/exceptions/$1',
-        "@logger": "<rootDir>/src/common/logger/index",
+        '@logger': '<rootDir>/src/common/logger/index',
         '@utils/(.*)': '<rootDir>/src/common/utils/$1',
         '@health/(.*)': '<rootDir>/src/health/$1',
-        '@addess/(.*)': '<rootDir>/src/address',
-        '@profile/(.*)': '<rootDir>/src/profile',
-        '@postalcode/(.*)': '<rootDir>/src/postalcode'
+        '@address/(.*)': '<rootDir>/src/address/$1',
+        '@profile/(.*)': '<rootDir>/src/profile/$1',
+        '@postalcode/(.*)': '<rootDir>/src/postalcode/$1',
     },
     setupFiles: ['<rootDir>/test/jest/setEnvVars.ts'],
 };

@@ -5,7 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
 import EnvironmentModule from '@environment/environment.module';
 import HealthController from '@health/health.controller';
-import { AddressModule } from '@address/cart.module';
+import { AddressModule } from '@address/address.module';
 import { PostalCodeModule } from '@postalcode/postalcode.module';
 import { ProfileModule } from '@profile/profile.module';
 
