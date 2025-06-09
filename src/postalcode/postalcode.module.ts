@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
-import PostalCodeController from './postalcode.controller';
+import PostalCodeController from './controller/postalcode.controller';
 import { POSTAL_CODE_SERVICE } from './constants/postalcode.constants';
 import { PostalCodeServiceImpl } from './services/postalCode.service.impl';
 

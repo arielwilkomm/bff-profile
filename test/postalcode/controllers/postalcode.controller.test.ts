@@ -1,4 +1,4 @@
-import PostalCodeController from '../../../src/postalcode/postalcode.controller';
+import PostalCodeController from '../../../src/postalcode/controller/postalcode.controller';
 import { PostalCodeServiceImpl } from '../../../src/postalcode/services/postalCode.service.impl';
 import { EnderecoDto } from '../../../src/postalcode/dtos/endereco.dto';
 import { BusinessException } from '@exceptions/business.exception';
