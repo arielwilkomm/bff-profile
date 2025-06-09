@@ -19,7 +19,7 @@ export class BusinessExceptionFilter implements ExceptionFilter {
                 body = {};
             }
         }
-        let details = body.details || (Array.isArray(exception.message) ? exception.message : [exception.message]);
+        const details = body.details || (Array.isArray(exception.message) ? exception.message : [exception.message]);
         let { code } = body;
         let { message } = body;
         if (
