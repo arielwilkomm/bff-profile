@@ -1,6 +1,6 @@
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
 import { Response } from 'express';
-import { getReasonPhrase } from 'http-status-codes';
+import { ERROR_CODES } from '@constants/error-codes';
 import { BusinessException } from '@exceptions/business.exception';
 
 @Catch(BusinessException)
@@ -19,20 +19,26 @@ export class BusinessExceptionFilter implements ExceptionFilter {
                 body = {};
             }
         }
-        const details = body.details || (Array.isArray(exception.message) ? exception.message : [exception.message]);
+        let details = body.details || (Array.isArray(exception.message) ? exception.message : [exception.message]);
         let { code } = body;
         let { message } = body;
-        if (!code && typeof exception.message === 'string' && exception.message.toLowerCase().includes('not found')) {
-            code = 'GB001';
-            message = 'PROFILE_NOT_FOUND';
-            status = 404;
+        if (
+            !code &&
+            typeof exception.message === 'string' &&
+            exception.message.toLowerCase().includes('profile not found')
+        ) {
+            code = ERROR_CODES.PROFILE_NOT_FOUND.code;
+            message = ERROR_CODES.PROFILE_NOT_FOUND.message;
+            status = ERROR_CODES.PROFILE_NOT_FOUND.status;
         }
         if (!status || typeof status !== 'number' || isNaN(status)) {
-            status = 500;
+            code = ERROR_CODES.INTERNAL_ERROR.code;
+            message = ERROR_CODES.INTERNAL_ERROR.message;
+            status = ERROR_CODES.INTERNAL_ERROR.status;
         }
         response.status(status).json({
-            code: code || getReasonPhrase(status),
-            message: message || getReasonPhrase(status),
+            code: code || message,
+            message: message || code,
             details,
         });
     }

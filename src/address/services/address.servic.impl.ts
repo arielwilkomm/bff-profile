@@ -6,6 +6,7 @@ import { ADDRESS_CLIENT } from '../constants/address.constants';
 import { IAddressClient } from '../clients/address.client';
 import { Logger } from '@logger';
 import { BusinessException } from '@exceptions/business.exception';
+import { ERROR_CODES } from '@constants/error-codes';
 
 @Injectable()
 export class AddressServiceImpl implements IAddressService {
@@ -30,7 +31,10 @@ export class AddressServiceImpl implements IAddressService {
             return result;
         } catch (error) {
             Logger.error('Error creating address', error);
-            throw new BusinessException(error.status, 'Error creating address');
+            throw new BusinessException(
+                error.status || ERROR_CODES.INTERNAL_ERROR.status,
+                ERROR_CODES.INTERNAL_ERROR.message,
+            );
         }
     }
 
@@ -49,7 +53,10 @@ export class AddressServiceImpl implements IAddressService {
             return result;
         } catch (error) {
             Logger.error('Error retrieving address', error);
-            throw new BusinessException(error.status, 'Error retrieving address');
+            throw new BusinessException(
+                error.status || ERROR_CODES.PROFILE_NOT_FOUND.status,
+                ERROR_CODES.PROFILE_NOT_FOUND.message,
+            );
         }
     }
 
@@ -69,7 +76,10 @@ export class AddressServiceImpl implements IAddressService {
             return result;
         } catch (error) {
             Logger.error('Error updating address', error);
-            throw new BusinessException(error.status, 'Error updating address');
+            throw new BusinessException(
+                error.status || ERROR_CODES.INTERNAL_ERROR.status,
+                ERROR_CODES.INTERNAL_ERROR.message,
+            );
         }
     }
 
@@ -87,7 +97,10 @@ export class AddressServiceImpl implements IAddressService {
             return result;
         } catch (error) {
             Logger.error('Error deleting address', error);
-            throw new BusinessException(error.status, 'Error deleting address');
+            throw new BusinessException(
+                error.status || ERROR_CODES.INTERNAL_ERROR.status,
+                ERROR_CODES.INTERNAL_ERROR.message,
+            );
         }
     }
 }

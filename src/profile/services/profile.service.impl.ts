@@ -6,6 +6,7 @@ import { PROFILE_CLIENT } from '../constants/profile.constants';
 import { IProfileClient } from '../clients/profile.client';
 import { Logger } from '@logger';
 import { BusinessException } from '@exceptions/business.exception';
+import { ERROR_CODES } from '@constants/error-codes';
 
 @Injectable()
 export class ProfileServiceImpl implements IProfileService {
@@ -26,7 +27,10 @@ export class ProfileServiceImpl implements IProfileService {
             return result;
         } catch (error) {
             Logger.error('Error creating profile', error);
-            throw new BusinessException(error.status, error.message);
+            throw new BusinessException(
+                error.status || ERROR_CODES.INTERNAL_ERROR.status,
+                ERROR_CODES.INTERNAL_ERROR.message,
+            );
         }
     }
 
@@ -39,7 +43,10 @@ export class ProfileServiceImpl implements IProfileService {
             return result;
         } catch (error) {
             Logger.error('Error retrieving profile', error);
-            throw new BusinessException(error.status, error.message);
+            throw new BusinessException(
+                error.status || ERROR_CODES.PROFILE_NOT_FOUND.status,
+                ERROR_CODES.PROFILE_NOT_FOUND.message,
+            );
         }
     }
 
@@ -55,7 +62,10 @@ export class ProfileServiceImpl implements IProfileService {
             return result;
         } catch (error) {
             Logger.error('Error updating profile', error);
-            throw new BusinessException(error.status, error.message);
+            throw new BusinessException(
+                error.status || ERROR_CODES.INTERNAL_ERROR.status,
+                ERROR_CODES.INTERNAL_ERROR.message,
+            );
         }
     }
 
@@ -67,7 +77,10 @@ export class ProfileServiceImpl implements IProfileService {
             return result;
         } catch (error) {
             Logger.error('Error deleting profile', error);
-            throw new BusinessException(error.status, error.message);
+            throw new BusinessException(
+                error.status || ERROR_CODES.INTERNAL_ERROR.status,
+                ERROR_CODES.INTERNAL_ERROR.message,
+            );
         }
     }
 }
