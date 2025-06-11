@@ -47,7 +47,7 @@ export class AddressClientImpl implements IAddressClient {
         Logger.info(`Updating address with ID: ${addressId} for CPF: ${cpf}`);
         const url = `${this.environment.getAddressUrl(cpf, addressId)}`;
         return this.handleRequest<AddressRecordDTO>('updateAddress', () =>
-            this.httpService.patch<AddressRecordDTO>(url, body),
+            this.httpService.put<AddressRecordDTO>(url, body),
         );
     }
 
