@@ -114,4 +114,26 @@ describe('ProfileClientImpl', () => {
         );
         await expect(client.deleteProfile(cpf)).rejects.toBeInstanceOf(BusinessException);
     });
+
+    it('should get profiles successfully', async () => {
+        environment.getProfileApiUrl.mockReturnValue('url');
+        const profiles = [dto];
+        const axiosResponse: AxiosResponse<ProfileRecordDTO[]> = {
+            status: 200,
+            data: profiles,
+            statusText: 'OK',
+            headers: {},
+            config: { headers: new AxiosHeaders() },
+        };
+        httpService.get.mockReturnValue(of(axiosResponse));
+        const result = await client.getProfiles();
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual(profiles);
+    });
+
+    it('should throw BusinessException on getProfiles error', async () => {
+        environment.getProfileApiUrl.mockReturnValue('url');
+        httpService.get.mockReturnValue(throwError(() => ({ response: { status: 500, data: { message: 'fail' } } })));
+        await expect(client.getProfiles()).rejects.toBeInstanceOf(BusinessException);
+    });
 });

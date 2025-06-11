@@ -73,4 +73,17 @@ describe('ProfileServiceImpl', () => {
         profileClient.deleteProfile.mockRejectedValue(new Error('fail'));
         await expect(service.deleteProfile(cpf)).rejects.toBeInstanceOf(BusinessException);
     });
+
+    it('should get profiles successfully', async () => {
+        const profiles = [dto];
+        profileClient.getProfiles = jest.fn().mockResolvedValue({ status: 200, data: profiles });
+        const result = await service.getProfiles();
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual(profiles);
+    });
+
+    it('should throw BusinessException on getProfiles error', async () => {
+        profileClient.getProfiles = jest.fn().mockRejectedValue(new Error('fail'));
+        await expect(service.getProfiles()).rejects.toBeInstanceOf(BusinessException);
+    });
 });

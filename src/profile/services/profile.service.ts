@@ -9,4 +9,5 @@ export interface IProfileService {
         body: ProfileRecordDTO,
     ): Promise<{ status: number; data: ProfileRecordDTO | BusinessException }>;
     deleteProfile(cpf: string): Promise<{ status: number; data: { message: string } | BusinessException }>;
+    getProfiles(): Promise<{ status: number; data: ProfileRecordDTO[] | BusinessException }>;
 }

@@ -83,4 +83,22 @@ export class ProfileServiceImpl implements IProfileService {
             );
         }
     }
+
+    async getProfiles(): Promise<{ status: number; data: ProfileRecordDTO[] | BusinessException }> {
+        try {
+            Logger.info('Retrieving all profiles');
+            const result = await this.profileClient.getProfiles();
+            result.data = Array.isArray(result.data)
+                ? result.data.map((item) => plainToInstance(ProfileRecordDTO, item, { excludeExtraneousValues: true }))
+                : result.data;
+            Logger.info('Successfully retrieved all profiles');
+            return result;
+        } catch (error) {
+            Logger.error('Error retrieving all profiles', error);
+            throw new BusinessException(
+                error.status || ERROR_CODES.INTERNAL_ERROR.status,
+                ERROR_CODES.INTERNAL_ERROR.message,
+            );
+        }
+    }
 }

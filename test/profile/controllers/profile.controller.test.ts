@@ -82,4 +82,17 @@ describe('ProfileController', () => {
         profileService.deleteProfile.mockRejectedValue(new BusinessException(500, 'fail'));
         await expect(controller.deleteProfile(cpf, res)).rejects.toBeInstanceOf(BusinessException);
     });
+
+    it('should get profiles and return 200', async () => {
+        const profiles = [dto];
+        profileService.getProfiles = jest.fn().mockResolvedValue({ status: 200, data: profiles });
+        await controller.getProfiles(res);
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(profiles);
+    });
+
+    it('should handle error on getProfiles', async () => {
+        profileService.getProfiles = jest.fn().mockRejectedValue(new BusinessException(500, 'fail'));
+        await expect(controller.getProfiles(res)).rejects.toBeInstanceOf(BusinessException);
+    });
 });

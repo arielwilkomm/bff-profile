@@ -59,4 +59,12 @@ export default class ProfileController {
         response.status(result.status).json(result.data);
         Logger.info('Successfully deleted profile');
     }
+
+    @Get('/all')
+    async getProfiles(@Res() response: Response<ProfileRecordDTO[] | BusinessException>): Promise<void> {
+        Logger.info('Retrieving all profiles');
+        const result = await this.profileService.getProfiles();
+        response.status(result.status).json(result.data);
+        Logger.info('Successfully retrieved all profiles');
+    }
 }
