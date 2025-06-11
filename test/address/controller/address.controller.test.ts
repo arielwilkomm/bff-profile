@@ -84,4 +84,17 @@ describe('AddressController', () => {
         addressService.deleteAddress.mockRejectedValue(new BusinessException(500, 'fail'));
         await expect(controller.deleteAddress(cpf, addressId, res)).rejects.toBeInstanceOf(BusinessException);
     });
+
+    it('should get all addresses and return 200', async () => {
+        const addresses = [dto, { ...dto, street: 'Rua B' }];
+        addressService.getAllAddresses = jest.fn().mockResolvedValue({ status: 200, data: addresses });
+        await controller.getAllAddresses(cpf, res);
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(addresses);
+    });
+
+    it('should handle error on getAllAddresses', async () => {
+        addressService.getAllAddresses = jest.fn().mockRejectedValue(new BusinessException(404, 'not found'));
+        await expect(controller.getAllAddresses(cpf, res)).rejects.toBeInstanceOf(BusinessException);
+    });
 });

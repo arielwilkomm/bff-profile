@@ -1,5 +1,5 @@
 import { BusinessException } from '@exceptions/business.exception';
-import { AddressServiceImpl } from '@address/services/address.servic.impl';
+import { AddressServiceImpl } from '@address/services/address.service.impl';
 import { IAddressClient } from '@address/clients/address.client';
 import { AddressRecordDTO, AddressType } from '@address/dtos/address.dto';
 
@@ -74,5 +74,18 @@ describe('AddressServiceImpl', () => {
     it('should throw BusinessException on deleteAddress error', async () => {
         addressClient.deleteAddress.mockRejectedValue(new Error('fail'));
         await expect(service.deleteAddress(cpf, addressId)).rejects.toBeInstanceOf(BusinessException);
+    });
+
+    it('should get all addresses successfully', async () => {
+        const addresses = [dto, { ...dto, street: 'Rua B' }];
+        addressClient.getAllAddresses = jest.fn().mockResolvedValue({ status: 200, data: addresses });
+        const result = await service.getAllAddresses(cpf);
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual(addresses);
+    });
+
+    it('should throw BusinessException on getAllAddresses error', async () => {
+        addressClient.getAllAddresses = jest.fn().mockRejectedValue(new Error('fail'));
+        await expect(service.getAllAddresses(cpf)).rejects.toBeInstanceOf(BusinessException);
     });
 });

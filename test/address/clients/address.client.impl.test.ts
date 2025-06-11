@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { BusinessException } from '@exceptions/business.exception';
 import { IEnvironment } from '@environment/environment';
 import { of, throwError } from 'rxjs';
-import { AddressClientImpl } from '@address/clients/address.clien.impl';
+import { AddressClientImpl } from '@address/clients/address.client.impl';
 import { AddressRecordDTO, AddressType } from '@address/dtos/address.dto';
 import { AxiosHeaders, AxiosResponse } from 'axios';
 
@@ -115,5 +115,29 @@ describe('AddressClientImpl', () => {
             throwError(() => ({ response: { status: 500, data: { message: 'fail' } } })),
         );
         await expect(client.deleteAddress(cpf, addressId)).rejects.toBeInstanceOf(BusinessException);
+    });
+
+    it('should get all addresses successfully', async () => {
+        environment.getAddressUrl.mockReturnValue('url');
+        const addresses = [dto, { ...dto, street: 'Rua B' }];
+        const axiosResponse = {
+            status: 200,
+            data: addresses,
+            statusText: 'OK',
+            headers: {},
+            config: { headers: new AxiosHeaders() },
+        };
+        httpService.get.mockReturnValue(of(axiosResponse));
+        const result = await client.getAllAddresses(cpf);
+        expect(result.status).toBe(200);
+        expect(result.data).toEqual(addresses);
+    });
+
+    it('should throw BusinessException on getAllAddresses error', async () => {
+        environment.getAddressUrl.mockReturnValue('url');
+        httpService.get.mockReturnValue(
+            throwError(() => ({ response: { status: 404, data: { message: 'not found' } } })),
+        );
+        await expect(client.getAllAddresses(cpf)).rejects.toBeInstanceOf(BusinessException);
     });
 });

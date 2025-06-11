@@ -103,4 +103,24 @@ export class AddressServiceImpl implements IAddressService {
             );
         }
     }
+
+    async getAllAddresses(cpf: string): Promise<{ status: number; data: AddressRecordDTO[] | BusinessException }> {
+        try {
+            Logger.info(`Retrieving all addresses for CPF: ${cpf}`);
+            const result = await this.addressClient.getAllAddresses(cpf);
+            if (Array.isArray(result.data)) {
+                result.data = result.data.map((addr) =>
+                    plainToInstance(AddressRecordDTO, addr, { excludeExtraneousValues: true }),
+                );
+            }
+            Logger.info('Successfully retrieved all addresses');
+            return result;
+        } catch (error) {
+            Logger.error('Error retrieving all addresses', error);
+            throw new BusinessException(
+                error.status || ERROR_CODES.PROFILE_NOT_FOUND.status,
+                ERROR_CODES.PROFILE_NOT_FOUND.message,
+            );
+        }
+    }
 }

@@ -62,6 +62,14 @@ export class AddressClientImpl implements IAddressClient {
         );
     }
 
+    async getAllAddresses(cpf: string): Promise<{ status: number; data: AddressRecordDTO[] | BusinessException }> {
+        Logger.info(`Fetching all addresses for CPF: ${cpf}`);
+        const url = `${this.environment.getAddressUrl(cpf)}`;
+        return this.handleRequest<AddressRecordDTO[]>('getAllAddresses', () =>
+            this.httpService.get<AddressRecordDTO[]>(url),
+        );
+    }
+
     private async handleRequest<T>(
         method: string,
         requestFn: () => any,

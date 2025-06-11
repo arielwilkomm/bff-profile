@@ -43,6 +43,17 @@ export default class AddressController {
         Logger.info('Successfully retrieved address');
     }
 
+    @Get()
+    async getAllAddresses(
+        @Param('cpf') cpf: string,
+        @Res() response: Response<AddressRecordDTO[] | BusinessException>,
+    ): Promise<void> {
+        Logger.info(`Retrieving all addresses for CPF: ${cpf}`);
+        const result = await this.addressService.getAllAddresses(cpf);
+        response.status(result.status).json(result.data);
+        Logger.info('Successfully retrieved all addresses');
+    }
+
     @Put('/:addressId')
     async updateAddress(
         @Param('cpf') cpf: string,

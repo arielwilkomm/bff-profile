@@ -19,4 +19,6 @@ export interface IAddressService {
         cpf: string,
         addressId: string,
     ): Promise<{ status: number; data: { message: string } | BusinessException }>;
+
+    getAllAddresses(cpf: string): Promise<{ status: number; data: AddressRecordDTO[] | BusinessException }>;
 }
