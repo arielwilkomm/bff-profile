@@ -23,7 +23,7 @@ export default class EnvironmentService implements IEnvironment {
         const addressUri = this.getAddressBaseUrI();
         let url = `${baseUrl}/${cpf}/${addressUri}`;
         if (addressId) {
-            url += `${addressId}`;
+            url += `/${addressId}`;
         }
         return url;
     }
