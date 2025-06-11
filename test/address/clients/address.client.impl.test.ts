@@ -14,6 +14,7 @@ describe('AddressClientImpl', () => {
     const cpf = '123';
     const addressId = 'id';
     const dto: AddressRecordDTO = {
+        id: addressId,
         street: 'A',
         city: 'B',
         state: 'C',
