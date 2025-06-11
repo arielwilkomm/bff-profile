@@ -10,6 +10,7 @@ describe('AddressController', () => {
     const cpf = '12345678900';
     const addressId = '1';
     const dto: AddressRecordDTO = {
+        id: addressId,
         street: 'Rua A',
         city: 'Cidade B',
         state: 'Estado C',
