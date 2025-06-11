@@ -15,7 +15,7 @@ describe('AddressController', () => {
         state: 'Estado C',
         country: 'Pais D',
         postalCode: '00000-000',
-        addressType: AddressType.RESIDENCIAL,
+        addressType: AddressType.RESIDENTIAL,
     };
 
     const mockResponse = () => {

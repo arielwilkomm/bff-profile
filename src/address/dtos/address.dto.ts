@@ -2,7 +2,7 @@ import { IsString, IsEnum, MaxLength, MinLength } from 'class-validator';
 import { Expose } from 'class-transformer';
 
 export enum AddressType {
-    RESIDENCIAL = 'RESIDENCIAL',
+    RESIDENTIAL = 'RESIDENTIAL',
     COMMERCIAL = 'COMMERCIAL',
 }
 

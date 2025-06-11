@@ -41,6 +41,7 @@ export class ProfileClientImpl implements IProfileClient {
     ): Promise<{ status: number; data: ProfileRecordDTO | BusinessException }> {
         Logger.info(`Updating profile for CPF: ${cpf}`);
         const url = `${this.environment.getProfileApiUrl()}/${cpf}`;
+        console.debug(`Update profile URL: ${url} - Body: ${JSON.stringify(body)}`);
         return this.handleRequest<ProfileRecordDTO>('updateProfile', () =>
             this.httpService.put<ProfileRecordDTO>(url, body),
         );

@@ -19,7 +19,7 @@ describe('AddressClientImpl', () => {
         state: 'C',
         country: 'D',
         postalCode: 'E',
-        addressType: AddressType.RESIDENCIAL,
+        addressType: AddressType.RESIDENTIAL,
     };
 
     beforeEach(() => {
