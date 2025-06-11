@@ -8,7 +8,6 @@ export enum AddressType {
 
 export class AddressRecordDTO {
     @Expose()
-    @IsString()
     id: string;
 
     @Expose()
