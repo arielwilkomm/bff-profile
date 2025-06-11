@@ -56,7 +56,7 @@ export class ProfileClientImpl implements IProfileClient {
 
     async getProfiles(): Promise<{ status: number; data: ProfileRecordDTO[] | BusinessException }> {
         Logger.info('Fetching all profiles');
-        const url = `${this.environment.getProfileApiUrl()}/profiles`;
+        const url = `${this.environment.getProfileApiUrl()}s`;
         return this.handleRequest<ProfileRecordDTO[]>('getProfiles', () =>
             this.httpService.get<ProfileRecordDTO[]>(url),
         );
