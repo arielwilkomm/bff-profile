@@ -9,6 +9,10 @@ export enum AddressType {
 export class AddressRecordDTO {
     @Expose()
     @IsString()
+    id: string;
+
+    @Expose()
+    @IsString()
     @MaxLength(255)
     @MinLength(1)
     street: string;
